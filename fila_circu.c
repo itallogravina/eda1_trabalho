@@ -13,7 +13,7 @@ static int p, u, N,s;
 void cria_fila(void) {
    N = 2;
    fila = malloc (N * sizeof (int));
-   p = 0, u = 0;
+  p = 0, u = 0;
 }
 
 int fila_vazia(void) {

@@ -4,53 +4,80 @@
 #define N 10
 
 
-typedef struct lista_dados {
-   int         elementos;
-   struct lista_dados *prox;
-}dados_celula;
+typedef struct lista {
+   int         conteudo;
+   struct lista *prox;
+}celula;
 
-typedef struct fila_encad{
-  int inicio, fim, qtd;
-  dados_celula lista[N];
-}dados_fila;
+celula *fila;
 
-void cria_fila(dados_fila *fila){
-  fila->inicio=0;
-  fila->fim=0;
-  fila->qtd=0;
+void cria_fila(){
+  fila = malloc (sizeof (celula));
+  fila->prox = NULL;
 }
 
-int fila_cheia(dados_fila *fila){
-  if(fila->qtd == N)
-  return 1;
-  else
-  return 0;
-}
-int fila_vazia(dados_fila *fila){
-  if(fila_cheia(fila))
+int fila_cheia(){
+
+  if(fila->prox == N)
   return 1;
   else
   return 0;
 }
 
-void enfileira(int x){
-  dados_celula *p;
-  dados_celula *nova;
-     nova = malloc (sizeof (dados_celula));
-     nova->elementos = x;
-     nova->prox = p->prox;
-     p->prox = nova;
+int fila_vazia(){
+  if(fila_cheia())
+  return 1;
+  else
+  return 0;
 }
-
-int desenfileira(dados_celula *p){
-  dados_celula *lixo;
-   lixo = p->prox;
-   p->prox = lixo->prox;
+//Inserir na fila
+void enfileira(int y){
+  celula *fila;
+  celula *nova;
+     nova = malloc (sizeof (celula));
+     if(nova==NULL)
+     return 0;
+     else{
+       nova->conteudo = y;
+       nova->prox = fila->prox;
+       fila->prox = nova;
+       //fila = nova;
+       return 1;
+     }
+}
+//Remover da fila
+int desenfileira(){
+  celula *lixo;
+  lixo = fila->prox;
+   fila = lixo->prox;
+   fila->prox = lixo->prox;
    free (lixo);
+   return 1;
 }
+//funcao rcursiva
+void imprime_fila() {
+   celula *fila;
+   if(fila != NULL){
+     printf ("%d\n", fila->conteudo);
+     imprime_fila(fila->prox);
+   }
+}
+//librar lista
+/*void libera_fila(){
+  _celula *lixo, *prox;
 
-void imprime_fila(dados_celula *le) {
-   dados_celula *p;
-   for (p = le->prox; p != NULL; p = p->prox)
-      printf ("%d\n", p->elementos);
+  prox = fila->prox;
+  while(prox != fila){
+    lixo = prox;
+    prox = lixo->prox;
+    free(lixo);
+  }
+}*/
+
+//Implmatacao altrnativa
+void libera_fila(){
+  int elementos;
+  while(desenfileira(&elementos))
+  free(fila);
 }
+9
